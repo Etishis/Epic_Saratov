@@ -35,6 +35,6 @@ list_of_maps = [
 ]
 
 player_count = 0
-player_speed = 50
+player_speed = 10
 player_x = -354
 player_y = 370

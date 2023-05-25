@@ -22,11 +22,19 @@ pygame.mixer.music.set_volume(0.3)
 running = True
 map_index = 0
 channelOne = pygame.mixer.Channel(1)
+vb.screen.blit(vb.list_of_maps[map_index], (0, 0))
 while running:
 
     clock.tick(10)
 
     vb.screen.blit(vb.list_of_maps[map_index], (0, 0))
+
+    if map_index == 5:
+        vb.screen.blit(vb.bomj_valera, (100, 100))
+
+    if map_index == 6:
+        vb.screen.blit(vb.bomj_valera, (100, 100))
+
     vb.screen.blit(vb.walk[vb.player_count], (vb.player_x, vb.player_y))
     vb.screen.blit(vb.start_button, (875, 777))
 
@@ -39,6 +47,7 @@ while running:
 
         map_index = custom_events.new_level(map_index)
 
+
         if map_index == 1:
             sounds.start_Vasya_voice.play()
 
@@ -47,7 +56,6 @@ while running:
 
         if map_index == 5:
             channelOne.play(sounds.help_Vasya)
-            vb.screen.blit(vb.bomj_valera, (100, 100))
             channelOne.queue(sounds.Bomj_Valera_voice)
 
         if map_index == 6:
@@ -61,3 +69,4 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
+
