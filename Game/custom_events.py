@@ -1,5 +1,4 @@
 import variables as vb
-import sounds
 
 
 def new_level(num_of_map_list):
