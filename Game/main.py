@@ -3,7 +3,7 @@ import variables as vb
 import motion as mtn
 import sounds
 import custom_events
-
+import states as stl
 clock = pygame.time.Clock()
 
 pygame.init()
@@ -17,8 +17,12 @@ pygame.display.set_icon(vb.icon)
 
 running = True
 map_index = 0
+action_index = 0
 channelOne = pygame.mixer.Channel(1)
 screen.blit(vb.list_of_maps[map_index], (0, 0))
+player_walk_count = 0
+SECOND_TIMER = pygame.USEREVENT + 1
+timer = 0
 while running:
 
     clock.tick(10)
@@ -35,13 +39,58 @@ while running:
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_1] and map_index == 6:
-            map_index = 7
-            if map_index == 7:
+            if action_index == 0:
                 vb.gop_index = 1
                 screen.blit(vb.gop_gopov[vb.gop_index], (370, 30))
-                sounds.Krishka.play()
+                vb.min_state_var = stl.MinState.PLAY
+                vb.bomj_valera.fill((0, 0, 0, 0))
+                channelOne.play(sounds.We_want)
+                channelOne.queue(sounds.Krishka)
+                vb.guide_text.fill((0, 0, 0, 0))
+                action_index += 1
+                pygame.time.set_timer(SECOND_TIMER, 1000)
 
-    screen.blit(vb.walk[vb.player_count], (vb.player_x, vb.player_y))
+        if keys[pygame.K_2] and map_index == 6:
+            if action_index == 0:
+                vb.end_state_var = stl.EndingsStates.BORING_END
+                sounds.We_are_just_walking.play()
+                vb.guide_text.fill((0, 0, 0, 0))
+                action_index += 1
+                pygame.time.set_timer(SECOND_TIMER, 1000)
+
+        if keys[pygame.K_3] and map_index == 6:
+            if action_index == 0:
+                vb.end_state_var = stl.EndingsStates.FUN_END
+                sounds.General_Gaws_voice.play()
+                vb.general_gaws_state_var = stl.GeneralGawsState.NOTABLE
+                action_index += 1
+                pygame.time.set_timer(SECOND_TIMER, 1000)
+
+    if action_index == 1 and vb.min_count > 0 and map_index == 6:
+        pass
+
+    if vb.general_gaws_state_var == stl.GeneralGawsState.NOTABLE:
+        screen.blit(vb.general_gaws, (550, 3))
+        vb.guide_text.fill((0, 0, 0, 0))
+
+    elif vb.general_gaws_state_var == stl.GeneralGawsState.HIDDEN:
+        pass
+
+    if not vb.player_walk.value:
+        screen.blit(vb.walk[0], (vb.player_x, vb.player_y))
+    else:
+        screen.blit(vb.walk[player_walk_count], (vb.player_x, vb.player_y))
+        player_walk_count += 1
+        if player_walk_count >= len(vb.walk):
+            player_walk_count = 0
+
+    if vb.min_state_var == stl.MinState.STOP:
+        pass
+
+    elif vb.min_state_var == stl.MinState.PLAY:
+        screen.blit(vb.min_count_img, (0, 0))
+        screen.blit(vb.min_count_text, (120, 5))
+
     screen.blit(vb.start_button, (875, 777))
 
     if map_index == 4:
@@ -78,6 +127,7 @@ while running:
             vb.player_x = -100
             vb.valera_x = -354
             vb.valera_y = 370
+
             vb.start_button.fill((0, 0, 0, 0))
             sounds.Draduti.play()
 
@@ -89,3 +139,38 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
+        if event.type == SECOND_TIMER:
+            timer += 1
+            if timer == 5:
+                vb.min_count -= 1
+                timer = 0
+                vb.min_count_text = vb.font.render(str(vb.min_count), False, pygame.Color('black'))
+            if vb.end_state_var.value and timer == 3:
+                vb.walk[0].fill((0, 0, 0, 0))
+                vb.walk[1].fill((0, 0, 0, 0))
+                vb.walk[2].fill((0, 0, 0, 0))
+                vb.gop_gopov[0].fill((0, 0, 0, 0))
+                vb.gop_gopov[1].fill((0, 0, 0, 0))
+                vb.gop_gopov[2].fill((0, 0, 0, 0))
+                vb.bomj_valera.fill((0, 0, 0, 0))
+                vb.general_gaws.fill((0, 0, 0, 0))
+                vb.min_count_img.fill((0, 0, 0, 0))
+                vb.min_count_text.fill((0, 0, 0, 0))
+                map_index = vb.end_state_var.value
+                vb.min_state_var = stl.MinState.STOP
+
+            if vb.min_count == 0:
+                if not vb.end_state_var.value and vb.min_count == 0:
+                    vb.end_state_var = stl.EndingsStates.FAIL_END
+
+            if vb.min_count == -1:
+                running = False
+                pygame.quit()
+
+        if event.type == pygame.KEYDOWN:
+            if vb.min_count > 0 and map_index == 6:
+                if event.key == pygame.K_a and vb.end_state_var != stl.EndingsStates.CANON_END:
+                    vb.end_state_var = stl.EndingsStates.CANON_END
+                    vb.gop_index = 2
+                    sounds.Ebkarniy_Babay.play()
+                    vb.min_state_var = stl.MinState.STOP

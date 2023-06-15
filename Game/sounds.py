@@ -13,8 +13,7 @@ We_want = pygame.mixer.Sound('D:/Emin/My programmes/Game/sounds/voices/Vasya_Pet
 
 Bomj_Valera_voice = pygame.mixer.Sound('D:/Emin/My programmes/Game/sounds/voices/Bomj_Valera/O_course!.ogg')
 
-General_Gaws_voice = pygame.mixer.Sound\
-    ('D:/Emin/My programmes/Game/sounds/voices/General_Gaws/Po_prikazu_generala_Gawsa.ogg')
+General_Gaws_voice = pygame.mixer.Sound('D:/Emin/My programmes/Game/sounds/voices/General_Gaws/Po_prikazu_generala_Gawsa.ogg')
 
 Draduti = pygame.mixer.Sound('D:/Emin/My programmes/Game/sounds/voices/Gop_Gopov/Dratuti.ogg')
 Ebkarniy_Babay = pygame.mixer.Sound('D:/Emin/My programmes/Game/sounds/voices/Gop_Gopov/Ebkarniy_Babay.ogg')
