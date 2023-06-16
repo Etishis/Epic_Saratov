@@ -14,6 +14,8 @@ font = pygame.font.Font('D:/Emin/My programmes/Game/font/VT323/VT323-Regular.ttf
 guide_text = font.render("We want to escape Saratov! - 1    We just walking. - 2    General Gaws - 3",
                          False, pygame.Color('white'))
 
+attack_text = font.render('"A"- attack', False, pygame.Color('white'))
+
 start_button = pygame.image.load('D:/Emin/My programmes/Game/images/need/start.png')
 
 key = pygame.image.load('images/door_and_key/key.png')

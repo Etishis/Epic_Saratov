@@ -90,6 +90,7 @@ while running:
     elif vb.min_state_var == stl.MinState.PLAY:
         screen.blit(vb.min_count_img, (0, 0))
         screen.blit(vb.min_count_text, (120, 5))
+        screen.blit(vb.attack_text, (200, 0))
 
     screen.blit(vb.start_button, (875, 777))
 
